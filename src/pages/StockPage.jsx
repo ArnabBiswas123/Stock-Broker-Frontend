@@ -1,4 +1,12 @@
-import { Box, Image, Text, useToast, Spinner, Center } from "@chakra-ui/react";
+import {
+  Box,
+  Image,
+  Text,
+  useToast,
+  Spinner,
+  Center,
+  Button,
+} from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import TabNavigation from "../common/TabNavigation";
@@ -10,6 +18,60 @@ export default function StockPage() {
   const [stocksData, setStocksData] = useState();
   const [stocksSummery, setStocksSummery] = useState();
   const [isLoading, setIsLoading] = useState(true);
+
+  const addTowishlist = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return navigate("/");
+      }
+      const wishlist = await fetch(
+        `http://localhost:5000/api/v1/user/addwishlist`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            ticker:ticker
+          }),
+        }
+      );
+
+      if (wishlist.status === 401) {
+        localStorage.removeItem("token");
+        return navigate("/");
+      }
+      const wishdata = await wishlist.json();
+      if (wishdata.success === true) {
+        toast({
+          title: "Company added to wishlist",
+          position: "top",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+
+      } else {
+        if (wishdata.msg === "Stock already in wishlist") {
+          toast({
+            title: "Stock is already in the wishlist",
+            position: "top",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+          return;
+        }
+        else{
+          return;
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchStock = async () => {
     try {
@@ -45,7 +107,7 @@ export default function StockPage() {
           toast({
             title:
               "You have run over your hourly request allocation. Try after some time",
-            // description: "Please Enter Valid Username and Password",
+      
             position: "top",
             status: "error",
             duration: 3000,
@@ -53,7 +115,6 @@ export default function StockPage() {
           });
           return;
         }
-       
       }
     } catch (error) {
       setIsLoading(false);
@@ -63,7 +124,6 @@ export default function StockPage() {
 
   useEffect(() => {
     fetchStock();
-    // console.lof(stocksData)
   }, [ticker]);
   return (
     <Box
@@ -73,7 +133,6 @@ export default function StockPage() {
       marginTop={"2%"}
       flexDir={"column"}
       alignItems={"center"}
-     
     >
       <Box
         width={["95%", "90%", "60%", "60%"]}
@@ -91,7 +150,7 @@ export default function StockPage() {
                 display={"flex"}
                 justifyContent={"center"}
                 flexDir={"column"}
-                width={'50%'}
+                width={"50%"}
               >
                 <Text
                   color={"white"}
@@ -117,6 +176,28 @@ export default function StockPage() {
                 >
                   {stocksData.exchangeCode}
                 </Text>
+                <Box
+                  display={"flex"}
+                  marginLeft={1}
+                  gap={2}
+                  justifyContent={"flex-start"}
+                  alignItems={"center"}
+                >
+                  <Button
+                    fontWeight={"bold"}
+                    fontFamily={"Times New Roman"}
+                    size={["xs", "xs", "sm", "sm"]}
+                  >
+                    BUY
+                  </Button>
+                  <Image
+                    height={6}
+                    width={6}
+                    src="/assets/star.svg"
+                    onClick={addTowishlist}
+                    cursor={'pointer'}
+                  ></Image>
+                </Box>
               </Box>
             ) : (
               ""
@@ -126,7 +207,7 @@ export default function StockPage() {
                 <Text
                   color={"white"}
                   fontFamily={"Times New Roman"}
-                  textAlign={'right'}
+                  textAlign={"right"}
                   fontSize={["sm", "md", "xl", "2xl"]}
                   fontWeight={"bold"}
                 >
@@ -135,7 +216,7 @@ export default function StockPage() {
                 <Box
                   display={"flex"}
                   justifyContent={"center"}
-                  textAlign={'right'}
+                  textAlign={"right"}
                   alignItems={"center"}
                 >
                   {stocksSummery.change > 0 ? (
@@ -154,7 +235,7 @@ export default function StockPage() {
 
                   <Text
                     fontFamily={"Times New Roman"}
-                    textAlign={'right'}
+                    textAlign={"right"}
                     fontSize={["xs", "sm", "md", "lg"]}
                     fontWeight={"bold"}
                     color={"white"}
@@ -167,7 +248,7 @@ export default function StockPage() {
                   fontSize={["xs", "sm", "md", "lg"]}
                   fontWeight={"bold"}
                   color={"white"}
-                  textAlign={'right'}
+                  textAlign={"right"}
                 >
                   {stocksSummery.currentTimeStamp}
                 </Text>
@@ -206,8 +287,14 @@ export default function StockPage() {
       ) : (
         ""
       )}
-      {stocksSummery ? <TabNavigation summeryData={stocksData} data={stocksSummery}></TabNavigation> : ""}
-
+      {stocksSummery ? (
+        <TabNavigation
+          summeryData={stocksData}
+          data={stocksSummery}
+        ></TabNavigation>
+      ) : (
+        ""
+      )}
     </Box>
   );
 }

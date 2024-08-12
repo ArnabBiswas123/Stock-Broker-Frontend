@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MySidebar from "./common/Sidebar";
 
+
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
         <Route path="/register" element={<SignupPage></SignupPage>}></Route>
         <Route path="/dashboard" element={<MySidebar></MySidebar>}></Route>
         <Route path="/stock/:ticker" element={<MySidebar></MySidebar>}></Route>
+        <Route path="/wishlist" element={<MySidebar></MySidebar>}></Route>
       </Routes>
     </>
   );

@@ -19,6 +19,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import StockPage from "../pages/StockPage";
+import WishlistPage from "../pages/WishlistPage";
 
 export default function MySidebar() {
   const location = useLocation();
@@ -243,16 +244,16 @@ export default function MySidebar() {
               ""
             )}
 
-            <MenuItem display={"flex"} gap={2} fontFamily={"Times New Roman"}>
+            <MenuItem display={"flex"} gap={2}  fontFamily={"Times New Roman"}  onClick={()=>{navigate('/wishlist')}}
+                cursor={"pointer"} >
               <Image
-                src="/assets/user.svg"
+                src="/assets/staricon.svg"
                 alt="dashboard svg"
-                h={"30px"}
-                w={"30px"}
-                // m={2}
-                cursor={"pointer"}
+                h={"25px"}
+                w={"25px"}
+               
               ></Image>
-              Profile
+              My Wishlist
             </MenuItem>
 
             <MenuItem
@@ -276,6 +277,7 @@ export default function MySidebar() {
       </Box>
       {/* {pathname === "/dashboard" ? <DashboardPage></DashboardPage> : ""} */}
       {pathname.startsWith("/stock/") ? <StockPage></StockPage> : ""}
+      {pathname.startsWith("/wishlist") ? <WishlistPage></WishlistPage> : ""}
     </Box>
   );
 }
