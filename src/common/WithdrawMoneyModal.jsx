@@ -33,7 +33,7 @@ export default function WithdrawMoneyModal({ FetchAgain, isOpen, onClose }) {
     try {
       let newErrors = {};
 
-      if (amount === "" || amount < 0) {
+      if (amount === "" || amount <= 0) {
         newErrors.amount = "Amount should be greater than 0";
       }
       if (method === "upi") {
@@ -93,7 +93,7 @@ export default function WithdrawMoneyModal({ FetchAgain, isOpen, onClose }) {
             title: result.msg,
             position: "top",
             status: "error",
-            duration: 3000,
+            duration: 2000,
             isClosable: true,
           });
           return;

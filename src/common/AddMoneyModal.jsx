@@ -33,7 +33,7 @@ export default function AddMoneyModal({ FetchAgain, isOpen, onClose }) {
     try {
       let newErrors = {};
 
-      if (amount === "" || amount < 0) {
+      if (amount === "" || amount <= 0) {
         newErrors.amount = "Amount should be greater than 0";
       }
       if (method === "upi") {
