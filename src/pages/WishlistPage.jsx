@@ -98,7 +98,9 @@ export default function WishlistPage() {
             duration: 3000,
             isClosable: true,
           });
+          
           console.error("Failed to remove item from wishlist:", result.msg);
+          return;
         }
       } catch (error) {
         console.error("Error removing item:", error);

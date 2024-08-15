@@ -20,6 +20,9 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import StockPage from "../pages/StockPage";
 import WishlistPage from "../pages/WishlistPage";
+import ProfilePage from "../pages/ProfilePage";
+import BalencePage from "../pages/BalencePage";
+import TrnasactionHistoryPage from "../pages/TrnasactionHistoryPage";
 
 export default function MySidebar() {
   const location = useLocation();
@@ -255,6 +258,17 @@ export default function MySidebar() {
               ></Image>
               My Wishlist
             </MenuItem>
+            <MenuItem display={"flex"} gap={2}  fontFamily={"Times New Roman"}  onClick={()=>{navigate('/profile')}}
+                cursor={"pointer"} >
+              <Image
+                src="/assets/user.svg"
+                alt="dashboard svg"
+                h={"25px"}
+                w={"25px"}
+               
+              ></Image>
+              My Profile
+            </MenuItem>
 
             <MenuItem
               display={"flex"}
@@ -265,8 +279,8 @@ export default function MySidebar() {
               <Image
                 src="/assets/logout.svg"
                 alt="dashboard svg"
-                h={"30px"}
-                w={"30px"}
+                h={"25px"}
+                w={"25px"}
                 // m={2}
                 cursor={"pointer"}
               ></Image>
@@ -278,6 +292,9 @@ export default function MySidebar() {
       {/* {pathname === "/dashboard" ? <DashboardPage></DashboardPage> : ""} */}
       {pathname.startsWith("/stock/") ? <StockPage></StockPage> : ""}
       {pathname.startsWith("/wishlist") ? <WishlistPage></WishlistPage> : ""}
+      {pathname.startsWith("/profile") ? <ProfilePage></ProfilePage> : ""}
+      {pathname.startsWith("/balence") ? <BalencePage></BalencePage> : ""}
+      {pathname.startsWith("/history") ? <TrnasactionHistoryPage></TrnasactionHistoryPage> : ""}
     </Box>
   );
 }
