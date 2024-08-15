@@ -47,6 +47,7 @@ export default function BalencePage() {
       if (data.success === true) {
         setIsLoading(false);
         setBalance(data.balance);
+
       } else {
         setIsLoading(false);
         console.error("Failed to fetch user details:", data.msg);
@@ -81,7 +82,7 @@ export default function BalencePage() {
             flexWrap={"wrap"}
             gap={4}
           >
-            {balance ? (
+            
               <Box
                 display={"flex"}
                 flexDir={"column"}
@@ -120,9 +121,9 @@ export default function BalencePage() {
                   </Button>
                 </Box>
               </Box>
-            ) : (
-              ""
-            )}
+            
+              
+            
           </Box>
         </>
       )}
@@ -133,7 +134,7 @@ export default function BalencePage() {
           onClose={onClose}
         ></AddMoneyModal>
       ) : (
-        ""
+       ""
       )}
       {isWithdrawOpen ? (
         <WithdrawMoneyModal

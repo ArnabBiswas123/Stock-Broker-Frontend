@@ -18,6 +18,7 @@ function App() {
         <Route path="/profile" element={<MySidebar></MySidebar>}></Route>
         <Route path="/balence" element={<MySidebar></MySidebar>}></Route>
         <Route path="/history" element={<MySidebar></MySidebar>}></Route>
+        <Route path="/purchase" element={<MySidebar></MySidebar>}></Route>
       </Routes>
     </>
   );

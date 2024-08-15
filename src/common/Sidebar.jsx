@@ -23,6 +23,7 @@ import WishlistPage from "../pages/WishlistPage";
 import ProfilePage from "../pages/ProfilePage";
 import BalencePage from "../pages/BalencePage";
 import TrnasactionHistoryPage from "../pages/TrnasactionHistoryPage";
+import PurchasePage from "../pages/PurchasePage";
 
 export default function MySidebar() {
   const location = useLocation();
@@ -295,6 +296,7 @@ export default function MySidebar() {
       {pathname.startsWith("/profile") ? <ProfilePage></ProfilePage> : ""}
       {pathname.startsWith("/balence") ? <BalencePage></BalencePage> : ""}
       {pathname.startsWith("/history") ? <TrnasactionHistoryPage></TrnasactionHistoryPage> : ""}
+      {pathname.startsWith("/purchase") ? <PurchasePage></PurchasePage> : ""}
     </Box>
   );
 }

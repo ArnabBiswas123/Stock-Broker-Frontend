@@ -5,14 +5,12 @@ export default function ProfilePage() {
     const navigate=useNavigate();
   return (
     <Box
-      width={"100%"}
-      display={"flex"}
-      justifyContent={"center"}
-      marginTop={"2%"}
-      flexDir={"row"}
-      flexWrap={'wrap'}
-      gap={'2%'}
-      alignItems={"center"}
+    width={"98%"}
+    display={"flex"}
+    justifyContent={"center"}
+    flexWrap={"wrap"}
+    gap={4}
+    marginTop={10}
     >
        <Card
             direction={["column", "column", "column", "row"]}
@@ -27,21 +25,21 @@ export default function ProfilePage() {
             transition="transform 0.3s ease-in-out"
           >
             <Image
-              objectFit="cover"
+              objectFit="contain"
               w={"120px"}
               h={"120px"}
               src="./assets/cash.svg"
-              alt="Kumbh Logo"
+              alt="Purchase"
             />
             <Text
               as="h2"
               fontFamily="Georgia, serif"
-              fontSize={20}
+              fontSize={['xs','sm','md','lg']}
               fontWeight="bold"
               color={"#4169E1"}
               textAlign={"center"}
             >
-              Check your Balence
+              Check Balence
             </Text>
           </Card>
        <Card
@@ -58,21 +56,52 @@ export default function ProfilePage() {
             onClick={(e)=>{navigate('/history')}}
           >
             <Image
-              objectFit="cover"
+              objectFit="contain"
               w={"120px"}
               h={"120px"}
-              src="./assets/transaction.svg"
-              alt="Kumbh Logo"
+              src="./assets/history-svgrepo-com (4).svg"
+              alt="Purchase"
             />
             <Text
               as="h2"
               fontFamily="Georgia, serif"
-              fontSize={20}
+              fontSize={['xs','sm','md','lg']}
               fontWeight="bold"
               color={"#4169E1"}
               textAlign={"center"}
             >
-              Check payment history
+              Payment history
+            </Text>
+          </Card>
+       <Card
+            direction={["column", "column", "column", "row"]}
+            width={["60%","40%","20%","20%"]}
+            overflow="hidden"
+            variant="outline"
+            alignItems={"center"}
+            // gap={3}
+            cursor={"pointer"}
+            boxShadow="dark-lg"
+            _hover={{ transform: "scale(1.02)" }}
+            transition="transform 0.3s ease-in-out"
+            onClick={(e)=>{navigate('/purchase')}}
+          >
+            <Image
+               objectFit="contain"
+              w={"120px"}
+              h={"120px"}
+              src="./assets/purchase.svg"
+              alt="Purchase"
+            />
+            <Text
+              as="h2"
+              fontFamily="Georgia, serif"
+              fontSize={['xs','sm','md','lg']}
+              fontWeight="bold"
+              color={"#4169E1"}
+              textAlign={"center"}
+            >
+          My purchases
             </Text>
           </Card>
     

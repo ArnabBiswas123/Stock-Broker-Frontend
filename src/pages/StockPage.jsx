@@ -10,6 +10,8 @@ import {
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import TabNavigation from "../common/TabNavigation";
+import { useDisclosure } from "@chakra-ui/react";
+import StockBuyModal from "../common/StockBuyModal";
 
 export default function StockPage() {
   const { ticker } = useParams();
@@ -18,6 +20,7 @@ export default function StockPage() {
   const [stocksData, setStocksData] = useState();
   const [stocksSummery, setStocksSummery] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const addTowishlist = async () => {
     try {
@@ -34,7 +37,7 @@ export default function StockPage() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            ticker:ticker
+            ticker: ticker,
           }),
         }
       );
@@ -52,7 +55,6 @@ export default function StockPage() {
           duration: 3000,
           isClosable: true,
         });
-
       } else {
         if (wishdata.msg === "Stock already in wishlist") {
           toast({
@@ -63,8 +65,7 @@ export default function StockPage() {
             isClosable: true,
           });
           return;
-        }
-        else{
+        } else {
           return;
         }
       }
@@ -107,7 +108,7 @@ export default function StockPage() {
           toast({
             title:
               "You have run over your hourly request allocation. Try after some time",
-      
+
             position: "top",
             status: "error",
             duration: 3000,
@@ -187,6 +188,7 @@ export default function StockPage() {
                     fontWeight={"bold"}
                     fontFamily={"Times New Roman"}
                     size={["xs", "xs", "sm", "sm"]}
+                    onClick={onOpen}
                   >
                     BUY
                   </Button>
@@ -195,7 +197,7 @@ export default function StockPage() {
                     width={6}
                     src="/assets/star.svg"
                     onClick={addTowishlist}
-                    cursor={'pointer'}
+                    cursor={"pointer"}
                   ></Image>
                 </Box>
               </Box>
@@ -292,6 +294,11 @@ export default function StockPage() {
           summeryData={stocksData}
           data={stocksSummery}
         ></TabNavigation>
+      ) : (
+        ""
+      )}
+      {isOpen ? (
+        <StockBuyModal ticker={ticker} isOpen={isOpen} onClose={onClose}></StockBuyModal>
       ) : (
         ""
       )}

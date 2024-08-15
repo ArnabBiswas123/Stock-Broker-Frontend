@@ -89,7 +89,7 @@ export default function TrnasactionHistoryPage() {
                           textAlign={"left"}
                           fontFamily={"Times New Roman"}
                           color="white"
-                        >{`Deposited ${item.amount}$ via ${item.method} from account number "${item.account}" on ${new Date(item.createdAt).toLocaleString()}`}</Text>
+                        >{`Deposited $${item.amount}$ via ${item.method} from account number "${item.account}" on ${new Date(item.createdAt).toLocaleString()}`}</Text>
                       )}
                       {item.type === "withdraw" && (
                         <Text
@@ -97,12 +97,30 @@ export default function TrnasactionHistoryPage() {
                           textAlign={"left"}
                           fontFamily={"Times New Roman"}
                           color="white"
-                        >{`Withdrawn  ${item.amount} $  via  ${item.method}  from account number  "${item.account}"  on ${new Date(item.createdAt).toLocaleString()}`}</Text>
+                        >{`Withdrawn  $${item.amount}  via  ${item.method}  from account number  "${item.account}"  on ${new Date(item.createdAt).toLocaleString()}`}</Text>
+                      )}
+                      {item.type === "buy" && (
+                        <Text
+                        fontSize={["xs","sm","md","lg"]}
+                          textAlign={"left"}
+                          fontFamily={"Times New Roman"}
+                          color="white"
+                        >{`Bought shares of ${item.stock.companyName} at $${item.amount} per share  via  ${item.method}  on ${new Date(item.createdAt).toLocaleString()}`}</Text>
+                      )}
+                      {item.type === "sell" && (
+                        <Text
+                        fontSize={["xs","sm","md","lg"]}
+                          textAlign={"left"}
+                          fontFamily={"Times New Roman"}
+                          color="white"
+                        >{`Sold shares of ${item.stock.companyName} at $${item.amount} per share  via  ${item.method}  on ${new Date(item.createdAt).toLocaleString()}`}</Text>
                       )}
                     </Box>
                   );
                 })
-              : ""}
+              : <Center>
+              <Text fontFamily={"Times New Roman"} color={"gray.400"}>No items in your payment History</Text>
+           </Center>}
           </Box>
         </>
       )}
