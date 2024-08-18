@@ -147,7 +147,7 @@ export default function UserSearchpage() {
   return (
     <Center>
       <Box
-        width={["60%", "50%", "40%", "30%"]}
+        width={["90%", "50%", "40%", "30%"]}
         display={"flex"}
         position="relative"
         flexDir={"column"}
@@ -160,7 +160,7 @@ export default function UserSearchpage() {
           overflow="hidden"
         >
           <Input
-            placeholder="Search User"
+            placeholder="Search User by email"
             fontFamily={"Times New Roman"}
             value={query}
             onChange={(e) => {
