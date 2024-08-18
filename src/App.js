@@ -5,6 +5,9 @@ import SignupPage from "./pages/SignupPage";
 import MySidebar from "./common/Sidebar";
 import ForgetPassword from "./pages/ForgetPassword";
 import EmailOtp from "./pages/EmailOtp";
+import LoginAdminPage from "./pages/Admin/LoginAdminPage";
+import AdminSidebar from "./common/Admin/AdminSidebar";
+
 
 
 
@@ -21,11 +24,17 @@ function App() {
         <Route path="/balence" element={<MySidebar></MySidebar>}></Route>
         <Route path="/history" element={<MySidebar></MySidebar>}></Route>
         <Route path="/purchase" element={<MySidebar></MySidebar>}></Route>
+        <Route path="/contactus" element={<MySidebar></MySidebar>}></Route>
         <Route path="/forgetpassword" element={<ForgetPassword></ForgetPassword>}></Route>
         <Route path="/emailotp" element={<EmailOtp></EmailOtp>}></Route>
+        <Route path="/admin/login" element={<LoginAdminPage></LoginAdminPage>}></Route>
+        <Route path="/admin/logs" element={<AdminSidebar></AdminSidebar>}></Route>
+        <Route path="/admin/stock/:ticker" element={<AdminSidebar></AdminSidebar>}></Route>
       </Routes>
     </>
   );
 }
 
 export default App;
+
+

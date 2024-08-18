@@ -116,6 +116,28 @@ export default function StockPage() {
           });
           return;
         }
+        else{
+          if(stockdata.msg==="company does not exists"){
+            setIsLoading(false);
+            toast({
+              title:
+                "Company does not exists",
+  
+              position: "top",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+            navigate('/dashboard')
+            return;
+          }
+          else{
+            setIsLoading(false);
+            console.log(stockdata.msg)
+              navigate('/dashboard')
+            return
+          }
+        }
       }
     } catch (error) {
       setIsLoading(false);
@@ -261,7 +283,9 @@ export default function StockPage() {
           </>
         )}
       </Box>
-      {stocksSummery ? (
+    
+{isLoading?'':<>
+  {stocksSummery ? (
         <Box
           marginTop={"4%"}
           paddingLeft={"1.5%"}
@@ -289,7 +313,7 @@ export default function StockPage() {
       ) : (
         ""
       )}
-      {stocksSummery ? (
+       {stocksSummery ? (
         <TabNavigation
           summeryData={stocksData}
           data={stocksSummery}
@@ -297,6 +321,9 @@ export default function StockPage() {
       ) : (
         ""
       )}
+</>}
+
+     
       {isOpen ? (
         <StockBuyModal ticker={ticker} isOpen={isOpen} onClose={onClose}></StockBuyModal>
       ) : (

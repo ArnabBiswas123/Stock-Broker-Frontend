@@ -27,7 +27,7 @@ export default function LoginPage() {
   const submitHandler = async () => {
     try {
       let newErrors = {};
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+      const emailRegex = /^[^\s@]+@gmail\.com$/; // Basic email regex
       const passwordMinLength = 5;
 
       // Trim the password before validation
@@ -69,7 +69,7 @@ export default function LoginPage() {
             // description: "Please Enter Valid Username and Password",
             position: "top",
             status: "error",
-            duration: 1000,
+            duration: 1500,
             isClosable: true,
           });
           return;

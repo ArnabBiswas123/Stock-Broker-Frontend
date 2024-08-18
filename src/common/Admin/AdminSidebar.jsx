@@ -18,16 +18,10 @@ import { debounce } from "lodash";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import StockPage from "../pages/StockPage";
-import WishlistPage from "../pages/WishlistPage";
-import ProfilePage from "../pages/ProfilePage";
-import BalencePage from "../pages/BalencePage";
-import TrnasactionHistoryPage from "../pages/TrnasactionHistoryPage";
-import PurchasePage from "../pages/PurchasePage";
-import DashboardPage from "../pages/DashboardPage";
-import Contactus from "../pages/Contactus";
+import AdminStockPage from "../../pages/Admin/AdminStockPage";
+import UserSearchpage from "../../pages/Admin/UserSearchpage";
 
-export default function MySidebar() {
+export default function AdminSidebar() {
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();
@@ -36,31 +30,34 @@ export default function MySidebar() {
   const [user, setUser] = useState([]);
 
   const fetchUser = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("admintoken");
 
     if (!token) {
       return navigate("/");
     }
     try {
-      const userd = await fetch("http://localhost:5000/api/v1/user/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const userd = await fetch(
+        "http://localhost:5000/api/v1/admin/myprofile",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (userd.status === 401) {
-        localStorage.removeItem("token");
-        return navigate("/");
+        localStorage.removeItem("admintoken");
+        return navigate("/admin/login");
       }
 
       const userdetails = await userd.json();
       if (userdetails.success === true) {
-        setUser({ email: userdetails.user.email, name: userdetails.user.name });
+        setUser({ email: userdetails.user.user_name });
       } else {
         console.error("Failed to fetch user details:", userdetails.msg);
       }
     } catch (error) {
-      console.error("Error fetching suggestions:", error);
+      console.log(error);
     }
   };
 
@@ -70,24 +67,24 @@ export default function MySidebar() {
 
   const handleSuggestionClick = (suggestion) => {
     setSuggestions([]);
-    navigate(`/stock/${suggestion.ticker}`);
+    navigate(`/admin/stock/${suggestion.ticker}`);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("admintoken");
     return navigate("/");
   };
 
   const fetchSuggestions = useCallback(
     debounce(async (query) => {
       if (query) {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("admintoken");
         if (!token) {
           return navigate("/");
         }
         try {
           const response = await fetch(
-            `http://localhost:5000/api/v1/stock/search/?q=${query}`,
+            `http://localhost:5000/api/v1/admin/search/?q=${query}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -95,8 +92,8 @@ export default function MySidebar() {
             }
           );
           if (response.status === 401) {
-            localStorage.removeItem("token");
-            return navigate("/");
+            localStorage.removeItem("admintoken");
+            return navigate("/admin/login");
           }
           const res = await response.json();
 
@@ -141,7 +138,7 @@ export default function MySidebar() {
           gap={3}
           alignItems={"center"}
         >
-          <NavLink to={"/dashboard"}>
+          <NavLink to={"/admin/logs"}>
             <Box
               display={"flex"}
               justifyContent={"center"}
@@ -240,9 +237,6 @@ export default function MySidebar() {
                 textOverflow={"ellipsis"}
                 alignItems={"flex-start"}
               >
-                <Text fontFamily={"Times New Roman"} as={"b"} noOfLines={1}>
-                  {user.name}
-                </Text>
                 <Text fontFamily={"Times New Roman"} noOfLines={1}>
                   {user.email}
                 </Text>
@@ -250,58 +244,6 @@ export default function MySidebar() {
             ) : (
               ""
             )}
-
-            <MenuItem
-              display={"flex"}
-              gap={2}
-              fontFamily={"Times New Roman"}
-              onClick={() => {
-                navigate("/wishlist");
-              }}
-              cursor={"pointer"}
-            >
-              <Image
-                src="/assets/staricon.svg"
-                alt="dashboard svg"
-                h={"25px"}
-                w={"25px"}
-              ></Image>
-              My Wishlist
-            </MenuItem>
-            <MenuItem
-              display={"flex"}
-              gap={2}
-              fontFamily={"Times New Roman"}
-              onClick={() => {
-                navigate("/profile");
-              }}
-              cursor={"pointer"}
-            >
-              <Image
-                src="/assets/user.svg"
-                alt="dashboard svg"
-                h={"25px"}
-                w={"25px"}
-              ></Image>
-              My Profile
-            </MenuItem>
-            <MenuItem
-              display={"flex"}
-              gap={2}
-              fontFamily={"Times New Roman"}
-              onClick={() => {
-                navigate("/contactus");
-              }}
-              cursor={"pointer"}
-            >
-              <Image
-                src="/assets/call.svg"
-                alt="dashboard svg"
-                h={"25px"}
-                w={"25px"}
-              ></Image>
-              Contact Us
-            </MenuItem>
 
             <MenuItem
               display={"flex"}
@@ -322,18 +264,8 @@ export default function MySidebar() {
           </MenuList>
         </Menu>
       </Box>
-      {pathname === "/dashboard" ? <DashboardPage></DashboardPage> : ""}
-      {pathname.startsWith("/stock/") ? <StockPage></StockPage> : ""}
-      {pathname==="/wishlist" ? <WishlistPage></WishlistPage> : ""}
-      {pathname==="/profile"? <ProfilePage></ProfilePage> : ""}
-      {pathname==="/balence" ? <BalencePage></BalencePage> : ""}
-      {pathname==="/history" ? (
-        <TrnasactionHistoryPage></TrnasactionHistoryPage>
-      ) : (
-        ""
-      )}
-      {pathname==="/purchase" ? <PurchasePage></PurchasePage> : ""}
-      {pathname==="/contactus" ? <Contactus></Contactus> : ""}
+      {pathname.startsWith("/admin/stock/") ? <AdminStockPage></AdminStockPage> : ""}
+      {pathname==="/admin/logs" ? <UserSearchpage></UserSearchpage> : ""}
     </Box>
   );
 }

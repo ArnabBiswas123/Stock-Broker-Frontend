@@ -26,13 +26,10 @@ export default function SignupPage() {
   const submitHandler=async()=>{
     try {
       let newErrors = {};
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+      const emailRegex = /^[^\s@]+@gmail\.com$/; // Basic email regex
       const passwordMinLength = 5;
-  
-      // Trim the password before validation
+
       const trimmedPassword = password.trim();
-  
-      // Perform validations
 
       if(name.trim()===""){
         newErrors.name = "Name is required";
@@ -64,7 +61,6 @@ export default function SignupPage() {
           if(data.success===true){
             toast({
               title: "Your details are successfully saved. Please Login to continue",
-              // description: "Please Enter Valid Username and Password",
               position: "top",
               status: "success",
               duration: 3000,
@@ -74,7 +70,6 @@ export default function SignupPage() {
           else{
             toast({
               title: data.msg,
-              // description: "Please Enter Valid Username and Password",
               position: "top",
               status: "error",
               duration: 2000,
