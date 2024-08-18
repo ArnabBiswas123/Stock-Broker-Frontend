@@ -29,7 +29,7 @@ export default function TabNavigation({ summeryData, data }) {
             fontFamily={"Times New Roman"}
             _selected={{ color: "blue.500", bg: "none" }}
           >
-            Summery
+            Summary
           </Tab>
           <Tab
             fontSize={["sm", "md", "lg", "xl"]}

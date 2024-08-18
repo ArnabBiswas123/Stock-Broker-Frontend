@@ -46,12 +46,13 @@ export default function BalencePage() {
       const data = await response.json();
       if (data.success === true) {
         setIsLoading(false);
-        setBalance(data.balance);
+        const formattedBalance = parseFloat(data.balance).toFixed(2);
+        setBalance(formattedBalance);
 
       } else {
         setIsLoading(false);
         console.error("Failed to fetch user details:", data.msg);
-      }
+      } 
     } catch (error) {
       setIsLoading(false);
       console.log(error);

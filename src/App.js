@@ -3,6 +3,8 @@ import './App.css';
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MySidebar from "./common/Sidebar";
+import ForgetPassword from "./pages/ForgetPassword";
+import EmailOtp from "./pages/EmailOtp";
 
 
 
@@ -19,6 +21,8 @@ function App() {
         <Route path="/balence" element={<MySidebar></MySidebar>}></Route>
         <Route path="/history" element={<MySidebar></MySidebar>}></Route>
         <Route path="/purchase" element={<MySidebar></MySidebar>}></Route>
+        <Route path="/forgetpassword" element={<ForgetPassword></ForgetPassword>}></Route>
+        <Route path="/emailotp" element={<EmailOtp></EmailOtp>}></Route>
       </Routes>
     </>
   );

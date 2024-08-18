@@ -8,10 +8,6 @@ import {
   Center,
   FormControl,
   FormLabel,
-  Input,
-  RadioGroup,
-  Radio,
-  HStack,
   Button,
   FormErrorMessage,
   useToast,
@@ -32,11 +28,10 @@ export default function StockSellModal({ ticker,maxquantity,   FetchAgain,isOpen
   const [lastprice, setLastprice] = useState();
   const toast = useToast();
   const [quantity, setquantity] = useState(0);
-  const [method, setMethod] = useState("upi");
-  const [account, setAccount] = useState("");
+ 
   const [errors, setErrors] = useState({
     quantity: "",
-    account: "",
+ 
   });
 
   const fetchStock = async () => {
@@ -62,8 +57,9 @@ export default function StockSellModal({ ticker,maxquantity,   FetchAgain,isOpen
       const stockdata = await data.json();
       if (stockdata.success === true) {
         setIsLoading(false);
-        // console.log(stockdata.price)
-        setLastprice(stockdata.price.lastPrice);
+        
+        const formattedBalance=parseFloat(stockdata.price.lastPrice).toFixed(2)
+        setLastprice(formattedBalance);
         // setStocksSummery(stockdata.otherData);
       } else {
         if (
@@ -102,20 +98,10 @@ export default function StockSellModal({ ticker,maxquantity,   FetchAgain,isOpen
       }
 
       if(quantity>maxquantity){
-        newErrors.quantity = `Quantity should be less than ${maxquantity}`;
+        newErrors.quantity = `Quantity should be maximum ${maxquantity}`;
       }
-      if (method === "upi") {
-        const upiRegex = /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/;
-        if (!upiRegex.test(account)) {
-          newErrors.account = "Invalid UPI ID";
-        }
-      } else if (method === "card") {
-        const cardRegex =
-          /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9]{2})[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/;
-        if (!cardRegex.test(account.replace(/[\s-]/g, ""))) {
-          newErrors.account = "Invalid Credit Card Number";
-        }
-      }
+     
+      
       setErrors(newErrors);
       const token = localStorage.getItem("token");
       if (!token) {
@@ -134,8 +120,7 @@ export default function StockSellModal({ ticker,maxquantity,   FetchAgain,isOpen
               ticker:ticker,
               quantity: parseInt(quantity),
               price:parseFloat(lastprice),
-              account: account,
-              method: method,
+           
             }),
           }
         );
@@ -153,7 +138,7 @@ export default function StockSellModal({ ticker,maxquantity,   FetchAgain,isOpen
             duration: 3000,
             isClosable: true,
           });
-          setAccount("");
+      
           setquantity("");
           FetchAgain();
           onClose();
@@ -233,47 +218,8 @@ export default function StockSellModal({ ticker,maxquantity,   FetchAgain,isOpen
               <Text fontWeight={"bold"} fontFamily="Times New Roman">
                 Total Amaount Gain : {lastprice * quantity}
               </Text>
-              <FormControl as="fieldset">
-                <FormLabel
-                  as="legend"
-                  fontWeight={"bold"}
-                  fontFamily="Georgia, serif"
-                >
-                  Method
-                </FormLabel>
-                <RadioGroup
-                  value={method}
-                  onChange={setMethod}
-                  defaultValue="upi"
-                >
-                  <HStack fontFamily="Georgia, serif">
-                    <Radio value="upi">UPI</Radio>
-                    <Radio value="card">CARD</Radio>
-                  </HStack>
-                </RadioGroup>
-              </FormControl>
-              <FormControl isInvalid={errors.account}>
-                <FormLabel fontWeight={"bold"} fontFamily="Georgia, serif">
-                  Account Number
-                </FormLabel>
-                <Input
-                  placeholder="Add account number"
-                  fontFamily="Georgia, serif"
-                  type="text"
-                  value={account}
-                  onChange={(e) => {
-                    setAccount(e.target.value);
-                    setErrors({ ...errors, account: "" });
-                  }}
-                />
-                {errors.account ? (
-                  <FormErrorMessage fontFamily="Georgia, serif">
-                    {errors.account}
-                  </FormErrorMessage>
-                ) : (
-                  ""
-                )}
-              </FormControl>
+            
+            
               <Center>
                 <Button
                   fontFamily="Georgia, serif"

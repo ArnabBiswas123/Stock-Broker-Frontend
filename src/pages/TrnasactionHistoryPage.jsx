@@ -105,7 +105,7 @@ export default function TrnasactionHistoryPage() {
                           textAlign={"left"}
                           fontFamily={"Times New Roman"}
                           color="white"
-                        >{`Bought shares of ${item.stock.companyName} at $${item.amount} per share  via  ${item.method}  on ${new Date(item.createdAt).toLocaleString()}`}</Text>
+                        >{`Bought ${item.quantity} shares of ${item.stock.companyName} at $${item.amount} per share   on ${new Date(item.createdAt).toLocaleString()}`}</Text>
                       )}
                       {item.type === "sell" && (
                         <Text
@@ -113,7 +113,7 @@ export default function TrnasactionHistoryPage() {
                           textAlign={"left"}
                           fontFamily={"Times New Roman"}
                           color="white"
-                        >{`Sold shares of ${item.stock.companyName} at $${item.amount} per share  via  ${item.method}  on ${new Date(item.createdAt).toLocaleString()}`}</Text>
+                        >{`Sold ${item.quantity} shares of ${item.stock.companyName} at $${item.amount} per share  via   on ${new Date(item.createdAt).toLocaleString()}`}</Text>
                       )}
                     </Box>
                   );
