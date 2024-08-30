@@ -64,7 +64,7 @@ try {
   }
 
   if (Passwordregx.test(password) === false) {
-    newErrors.password = "Password must be at least 5 characters long";
+    newErrors.password = "Password must be alphanumeric 5 characters long";
   }
   if(password!==confirmPassword){
     newErrors.confirmPassword = "Password doesn't match";

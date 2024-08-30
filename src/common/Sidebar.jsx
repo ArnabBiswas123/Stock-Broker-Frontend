@@ -197,6 +197,7 @@ export default function MySidebar() {
               top={"41px"}
               border="1px solid #ddd"
               bgColor={"white"}
+             
             >
               {suggestions.map((suggestion, index) => (
                 <ListItem
