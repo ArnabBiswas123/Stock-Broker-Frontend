@@ -26,6 +26,8 @@ import TrnasactionHistoryPage from "../pages/TrnasactionHistoryPage";
 import PurchasePage from "../pages/PurchasePage";
 import DashboardPage from "../pages/DashboardPage";
 import Contactus from "../pages/Contactus";
+import PredictionPage from "../pages/PredictionPage";
+import CompanyPredictionPage from "../pages/CompanyPredictionPage";
 
 export default function MySidebar() {
   const location = useLocation();
@@ -274,6 +276,23 @@ export default function MySidebar() {
               gap={2}
               fontFamily={"Times New Roman"}
               onClick={() => {
+                navigate("/prediction");
+              }}
+              cursor={"pointer"}
+            >
+              <Image
+                src="/assets/prediction.svg"
+                alt="dashboard svg"
+                h={"25px"}
+                w={"25px"}
+              ></Image>
+             Stock Prediction
+            </MenuItem>
+            <MenuItem
+              display={"flex"}
+              gap={2}
+              fontFamily={"Times New Roman"}
+              onClick={() => {
                 navigate("/profile");
               }}
               cursor={"pointer"}
@@ -325,7 +344,9 @@ export default function MySidebar() {
       </Box>
       {pathname === "/dashboard" ? <DashboardPage></DashboardPage> : ""}
       {pathname.startsWith("/stock/") ? <StockPage></StockPage> : ""}
+      {pathname.startsWith("/companyprediction/") ? <CompanyPredictionPage></CompanyPredictionPage> : ""}
       {pathname==="/wishlist" ? <WishlistPage></WishlistPage> : ""}
+      {pathname==="/prediction" ? <PredictionPage></PredictionPage> : ""}
       {pathname==="/profile"? <ProfilePage></ProfilePage> : ""}
       {pathname==="/balence" ? <BalencePage></BalencePage> : ""}
       {pathname==="/history" ? (

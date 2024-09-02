@@ -18,7 +18,7 @@ export default function Contactus() {
           w={"50px"}
         ></Image>
         <Text fontSize={"xl"} color={"white"} fontFamily={"Times New Roman"}>
-          +91 8777694560
+          +91 87776945
         </Text>
       </Box>
       <Box display={"flex"} alignItems={"center"}>

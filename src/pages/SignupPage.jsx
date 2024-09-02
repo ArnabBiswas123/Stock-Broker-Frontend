@@ -24,10 +24,11 @@ export default function SignupPage() {
   });
 
   const submitHandler=async()=>{
-    try {
+    try { 
       let newErrors = {};
       const emailRegex = /^[^\s@]+@gmail\.com$/; // Basic email regex
-      const passwordMinLength = 5;
+      const Passwordregx = /^[a-zA-Z][a-zA-Z\d@]{5,}$/;
+      // const passwordMinLength = 5;
 
       const trimmedPassword = password.trim();
 
@@ -38,8 +39,8 @@ export default function SignupPage() {
       if (email === "" || !emailRegex.test(email)) {
         newErrors.email = "Enter a valid email";
       }
-      if (trimmedPassword === "" || trimmedPassword.length < passwordMinLength) {
-        newErrors.password = "Password must be at least 5 characters long";
+      if (trimmedPassword === "" || Passwordregx.test(trimmedPassword) === false) {
+        newErrors.password = "Password must be alphanumeric 5 characters long";
       }
       
       setError(newErrors);

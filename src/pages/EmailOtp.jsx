@@ -18,12 +18,12 @@ import { useNavigate } from "react-router-dom";
 
 export default function EmailOtp() {
   const [password, setPassword] = useState("");
-  const [confirmPassword,setConfirmPassword]=useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
     password: "",
-    confirmPassword:''
+    confirmPassword: "",
   });
   const navigate = useNavigate();
   const toast = useToast();
@@ -45,104 +45,90 @@ export default function EmailOtp() {
       password: "",
     });
   };
- 
+
   const submitHandler = async () => {
-try {
-  const Passwordregx = /^[a-zA-Z][a-zA-Z\d@]{5,}$/;
+    try {
+      const Passwordregx = /^[a-zA-Z][a-zA-Z\d@]{5,}$/;
 
-  const newErrors = {};
-  if (pin === "") {
-    toast({
-      title: "please Enter OTP",
-      description: "some fields are not valid",
-      position: "top",
-      status: "error",
-      duration: 1000,
-      isClosable: true,
-    });
-    return;
-  }
-
-  if (Passwordregx.test(password) === false) {
-    newErrors.password = "Password must be alphanumeric 5 characters long";
-  }
-  if(password!==confirmPassword){
-    newErrors.confirmPassword = "Password doesn't match";
-  }
-
-  setErrors(newErrors);
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return navigate("/");
-  }
-  if (Object.keys(newErrors).length === 0) {
-
-    setLoading(true);
-    const response = await fetch(
-      "http://localhost:5000/api/v1/user/verifyemail",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          otp:pin,
-          password: password, 
-        }),
+      const newErrors = {};
+      if (pin === "") {
+        toast({
+          title: "please Enter OTP",
+          description: "some fields are not valid",
+          position: "top",
+          status: "error",
+          duration: 1000,
+          isClosable: true,
+        });
+        return;
       }
-    );
-    if (response.status === 401) {
-      
-      localStorage.removeItem("token");
-      return navigate("/");
+
+      if (Passwordregx.test(password) === false) {
+        newErrors.password = "Password must be alphanumeric 5 characters long";
+      }
+      if (password !== confirmPassword) {
+        newErrors.confirmPassword = "Password doesn't match";
+      }
+
+      setErrors(newErrors);
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return navigate("/");
+      }
+      if (Object.keys(newErrors).length === 0) {
+        setLoading(true);
+        const response = await fetch(
+          "http://localhost:5000/api/v1/user/verifyemail",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              otp: pin,
+              password: password,
+            }),
+          }
+        );
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          return navigate("/");
+        }
+        const result = await response.json();
+
+        if (result.success) {
+          setLoading(false);
+          toast({
+            title: "password changed successfully",
+            position: "top",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+
+          localStorage.removeItem("token");
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
+
+          return;
+        } else {
+          setLoading(false);
+          toast({
+            title: result.msg,
+            position: "top",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+          return;
+        }
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error send otp", error);
     }
-    const result = await response.json();
-
-    if (result.success) {
-      setLoading(false)
-      toast({
-        title: "password changed successfully",
-        position: "top",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-
-      localStorage.removeItem("token");
-        setTimeout(() => {
-          navigate("/");
-        }, 1500);
-
-      return;
-    } else {
-      setLoading(false)
-      toast({
-        title: result.msg,
-        position: "top",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
-  }
-} catch (error) {
-  setLoading(false);
-  console.error("Error send otp", error);
-}
-
-    
-  
-   
-   
- 
-      
-
-     
-      
-  
-    
   };
 
   return (
@@ -169,7 +155,7 @@ try {
           <HStack>
             <PinInput
               placeholder=""
-              size={["sm","md","lg","lg"]}
+              size={["sm", "md", "lg", "lg"]}
               onChange={handlePinChange}
               value={pin}
             >
@@ -187,36 +173,46 @@ try {
               <FormLabel fontFamily={"Times New Roman"}>New Password</FormLabel>
               <Input
                 placeholder="Enter your new password"
+                type="password"
                 value={password}
                 onChange={passwordChangeHandler}
                 borderColor={"black"}
                 fontFamily={"Times New Roman"}
               />
               {errors.password ? (
-                <FormErrorMessage fontSize={["xs", "sm", "sm", "sm", "sm"]}>{errors.password}</FormErrorMessage>
+                <FormErrorMessage fontSize={["xs", "sm", "sm", "sm", "sm"]}>
+                  {errors.password}
+                </FormErrorMessage>
               ) : (
                 ""
               )}
             </FormControl>
-            <FormControl id="password" isRequired isInvalid={errors.confirmPassword}>
+            <FormControl
+              id="password"
+              isRequired
+              isInvalid={errors.confirmPassword}
+            >
               <FormLabel fontFamily={"Times New Roman"}>
                 Confirm Password
               </FormLabel>
               <Input
                 placeholder="Confirm your new password"
+                type="password"
                 value={confirmPassword}
-                onChange={(e)=>{
+                onChange={(e) => {
                   setConfirmPassword(e.target.value);
                   setErrors({
                     ...errors,
-                    confirmPassword:''
-                  })
+                    confirmPassword: "",
+                  });
                 }}
                 borderColor={"black"}
                 fontFamily={"Times New Roman"}
               />
-              {errors.confirmPassword? (
-                <FormErrorMessage fontSize={["xs", "sm", "sm", "sm", "sm"]}>{errors.confirmPassword}</FormErrorMessage>
+              {errors.confirmPassword ? (
+                <FormErrorMessage fontSize={["xs", "sm", "sm", "sm", "sm"]}>
+                  {errors.confirmPassword}
+                </FormErrorMessage>
               ) : (
                 ""
               )}

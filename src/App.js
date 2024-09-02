@@ -20,6 +20,8 @@ function App() {
         <Route path="/dashboard" element={<MySidebar></MySidebar>}></Route>
         <Route path="/stock/:ticker" element={<MySidebar></MySidebar>}></Route>
         <Route path="/wishlist" element={<MySidebar></MySidebar>}></Route>
+        <Route path="/prediction" element={<MySidebar></MySidebar>}></Route>
+        <Route path="/companyprediction/:name" element={<MySidebar></MySidebar>}></Route>
         <Route path="/profile" element={<MySidebar></MySidebar>}></Route>
         <Route path="/balence" element={<MySidebar></MySidebar>}></Route>
         <Route path="/history" element={<MySidebar></MySidebar>}></Route>
